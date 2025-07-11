@@ -1,5 +1,8 @@
-package gq.arcstudio.resouceLib;
+package gq.arcstudio.resourceLib;
 
+import gq.arcstudio.resourceLib.Networking.ResourcePackSender;
+import gq.arcstudio.resourceLib.Networking.ResourcePackServer;
+import gq.arcstudio.resourceLib.ResourcePack.ResourcePackManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,7 +14,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-public final class ResouceLib extends JavaPlugin {
+public final class ResourceLib extends JavaPlugin {
 
     private ResourcePackServer packServer;
     private ResourcePackSender packSender;

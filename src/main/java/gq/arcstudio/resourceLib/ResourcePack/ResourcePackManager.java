@@ -1,5 +1,6 @@
-package gq.arcstudio.resourceLib;
+package gq.arcstudio.resourceLib.ResourcePack;
 
+import gq.arcstudio.resourceLib.ResourceEntry;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;

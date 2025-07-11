@@ -1,4 +1,4 @@
-package gq.arcstudio.resouceLib;
+package gq.arcstudio.resourceLib;
 
 import java.io.File;
 

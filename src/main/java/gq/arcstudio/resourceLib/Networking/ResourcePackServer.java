@@ -1,6 +1,8 @@
-package gq.arcstudio.resourceLib;
+package gq.arcstudio.resourceLib.Networking;
 
 import com.sun.net.httpserver.*;
+import gq.arcstudio.resourceLib.ResourcePack.ResourcePackBuilder;
+import gq.arcstudio.resourceLib.ResourcePack.ResourcePackManager;
 
 import java.io.IOException;
 import java.io.OutputStream;

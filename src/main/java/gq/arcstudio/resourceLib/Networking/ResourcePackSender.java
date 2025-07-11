@@ -1,4 +1,4 @@
-package gq.arcstudio.resourceLib;
+package gq.arcstudio.resourceLib.Networking;
 
 import org.bukkit.entity.Player;
 

@@ -1,6 +1,6 @@
-name: ResouceLib
+name: ResourceLib
 version: '1.0'
-main: gq.arcstudio.resouceLib.ResouceLib
+main: gq.arcstudio.resourceLib.ResourceLib
 api-version: '1.19'
 prefix: reslib
 load: STARTUP

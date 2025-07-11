@@ -1,6 +1,8 @@
-package gq.arcstudio.resourceLib;
+package gq.arcstudio.resourceLib.ResourcePack;
 
 import com.google.gson.*;
+import gq.arcstudio.resourceLib.ResourceEntry;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
