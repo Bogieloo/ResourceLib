@@ -1,5 +1,5 @@
 name: ResourceLib
-version: '1.0.1'
+version: '1.0.2'
 main: gq.arcstudio.resourceLib.ResourceLib
 api-version: '1.19'
 prefix: reslib
