@@ -3,9 +3,13 @@ package gq.arcstudio.resourceLib.ResourcePack;
 import gq.arcstudio.resourceLib.ResourceEntry;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
+import java.io.*;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.jar.JarEntry;
+import java.util.jar.JarInputStream;
 
 public class ResourcePackManager {
 
@@ -27,14 +31,41 @@ public class ResourcePackManager {
         resources.add(new ResourceEntry(virtualPath, file, force));
     }
 
-    public void registerResourceEntry(JavaPlugin plugin, String pluginResourceFolder, boolean force) {
-        File pluginFolder = new File(plugin.getDataFolder(), pluginResourceFolder);
-        if (!pluginFolder.exists()) {
-            plugin.getLogger().warning("Resource folder not found: " + pluginFolder.getAbsolutePath());
-            return;
-        }
+    public void registerResourceEntry(JavaPlugin plugin, String resourceFolder, boolean force) {
+        try {
 
-        addDirectoryResources(pluginFolder, "assets/", force);
+            Enumeration<URL> resources = plugin.getClass().getClassLoader().getResources(resourceFolder);
+
+            while (resources.hasMoreElements()) {
+                URL url = resources.nextElement();
+
+                if (url.getProtocol().equals("jar")) {
+                    try (JarInputStream jarStream = new JarInputStream(plugin.getClass().getProtectionDomain().getCodeSource().getLocation().openStream())) {
+                        JarEntry entry;
+
+                        while ((entry = jarStream.getNextJarEntry()) != null) {
+                            if (!entry.isDirectory() && entry.getName().startsWith(resourceFolder + "/")) {
+                                String virtualPath = "assets/" + entry.getName().substring(resourceFolder.length() + 1);
+                                InputStream is = plugin.getResource(entry.getName());
+
+                                if (is != null) {
+                                    File temp = File.createTempFile("reslib_", null);
+                                    temp.deleteOnExit();
+
+                                    try (OutputStream os = new FileOutputStream(temp)) {
+                                        is.transferTo(os);
+                                    }
+
+                                    registerResource(virtualPath, temp, force);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            plugin.getLogger().severe("Failed to read resources from: " + resourceFolder + " - " + e.getMessage());
+        }
     }
 
     private void addDirectoryResources(File folder, String basePath, boolean force) {
