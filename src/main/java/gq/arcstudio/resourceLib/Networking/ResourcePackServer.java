@@ -27,6 +27,15 @@ public class ResourcePackServer {
             }
         });
 
+        server.createContext("/pack.zip", exchange -> {
+            System.out.println("[ResourceLib] Serving resource pack to " + exchange.getRemoteAddress());
+            exchange.getResponseHeaders().add("Content-Type", "application/zip");
+            exchange.sendResponseHeaders(200, zipBytes.length);
+            try (OutputStream os = exchange.getResponseBody()) {
+                os.write(zipBytes);
+            }
+        });
+
         server.start();
     }
 
@@ -46,8 +55,16 @@ public class ResourcePackServer {
         try {
             zipBytes = ResourcePackBuilder.buildZip(ResourcePackManager.getInstance().getRegisteredResources());
             sha1 = MessageDigest.getInstance("SHA-1").digest(zipBytes);
+            System.out.println("[ResourceLib] Resource pack built, SHA-1: " + bytesToHex(sha1));
         } catch (Exception e) {
             throw new RuntimeException("Failed to build resource pack", e);
         }
+    }
+    private String bytesToHex(byte[] hash) {
+        StringBuilder sb = new StringBuilder();
+        for (byte b : hash) {
+            sb.append(String.format("%02x", b));
+        }
+        return sb.toString();
     }
 }
