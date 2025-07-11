@@ -16,7 +16,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.Bogieloo:ResourceLib:v1.0")
+    implementation("com.github.Bogieloo:ResourceLib:version")
 }
 ```
 ### Maven:
@@ -32,7 +32,7 @@ dependencies {
     <dependency>
         <groupId>com.github.Bogieloo</groupId>
         <artifactId>ResourceLib</artifactId>
-        <version>v1.0</version>
+        <version>version</version>
     </dependency>
 </dependencies>
 ```
