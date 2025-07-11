@@ -1,0 +1,51 @@
+package gq.arcstudio.resourceLib;
+
+import com.sun.net.httpserver.*;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.InetSocketAddress;
+import java.security.MessageDigest;
+
+public class ResourcePackServer {
+
+    private HttpServer server;
+    private byte[] zipBytes;
+    private byte[] sha1;
+
+    public void start(int port) throws IOException {
+        buildPack();
+        server = HttpServer.create(new InetSocketAddress(port), 0);
+
+        server.createContext("/pack.zip", exchange -> {
+            exchange.getResponseHeaders().add("Content-Type", "application/zip");
+            exchange.sendResponseHeaders(200, zipBytes.length);
+            try (OutputStream os = exchange.getResponseBody()) {
+                os.write(zipBytes);
+            }
+        });
+
+        server.start();
+    }
+
+    public void stop() {
+        if (server != null) server.stop(0);
+    }
+
+    public String getPackUrl(String host, int port) {
+        return "http://" + host + ":" + port + "/pack.zip";
+    }
+
+    public byte[] getSha1() {
+        return sha1;
+    }
+
+    public void buildPack() {
+        try {
+            zipBytes = ResourcePackBuilder.buildZip(ResourcePackManager.getInstance().getRegisteredResources());
+            sha1 = MessageDigest.getInstance("SHA-1").digest(zipBytes);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to build resource pack", e);
+        }
+    }
+}
