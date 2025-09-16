@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -40,6 +41,8 @@ public final class ResourceLib extends JavaPlugin {
             }
         }
 
+        testOrIgnore();
+
         packServer.buildPack();
         ResourcePackManager.getInstance().lock();
 
@@ -61,5 +64,16 @@ public final class ResourceLib extends JavaPlugin {
     @Override
     public void onDisable() {
         if (packServer != null) packServer.stop();
+    }
+
+    private void testOrIgnore() {
+        try {
+            Class<?> clazz = Class.forName("gq.arcstudio.resourceLib.test.testimplemetation");
+            java.lang.reflect.Method method = clazz.getMethod("runTest");
+            method.invoke(null);
+        } catch (ClassNotFoundException e) {}
+        catch (InvocationTargetException e) {}
+        catch (NoSuchMethodException e) {}
+        catch (IllegalAccessException e) {}
     }
 }
