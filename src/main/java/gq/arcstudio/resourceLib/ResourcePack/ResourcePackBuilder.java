@@ -45,6 +45,8 @@ public class ResourcePackBuilder {
 
     private static int getPackFormat() {
         String version = Bukkit.getServer().getVersion();
+        if (version.contains("1.21.5")) return 55;
+        if (version.contains("1.21")) return 34;
         if (version.contains("1.20.5") || version.contains("1.20.6")) return 32;
         if (version.contains("1.20.3") || version.contains("1.20.4")) return 22;
         if (version.contains("1.20.2")) return 18;
@@ -55,8 +57,8 @@ public class ResourcePackBuilder {
         if (version.contains("1.18")) return 8;
         if (version.contains("1.17")) return 7;
 
-        Bukkit.getLogger().warning("[ResourceLib] Unknown server version " + version + ". Using default pack format 13. This may not work as intended.");
-        return 13;
+        Bukkit.getLogger().warning("[ResourceLib] Unknown server version " + version + ". Using default pack format 34. This may not work as intended.");
+        return 34;
     }
 
     private static String getDefaultMeta() {
