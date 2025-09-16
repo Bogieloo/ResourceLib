@@ -20,14 +20,6 @@ public class ResourcePackServer {
         server = HttpServer.create(new InetSocketAddress(port), 0);
 
         server.createContext("/pack.zip", exchange -> {
-            exchange.getResponseHeaders().add("Content-Type", "application/zip");
-            exchange.sendResponseHeaders(200, zipBytes.length);
-            try (OutputStream os = exchange.getResponseBody()) {
-                os.write(zipBytes);
-            }
-        });
-
-        server.createContext("/pack.zip", exchange -> {
             System.out.println("[ResourceLib] Serving resource pack to " + exchange.getRemoteAddress());
             exchange.getResponseHeaders().add("Content-Type", "application/zip");
             exchange.sendResponseHeaders(200, zipBytes.length);
